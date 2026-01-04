@@ -82,8 +82,60 @@ function saveCardToFirebase(sender, recipient, theme, message) {
     })
     .then((docRef) => {
         console.log('Card saved with ID:', docRef.id);
+        alert('Card saved successfully! 🎉');
     })
     .catch((error) => {
         console.error('Error saving card:', error);
+        alert('Error saving card. Please try again.');
     });
 }
+
+// Search and display cards
+const searchBtn = document.getElementById('searchBtn');
+const searchName = document.getElementById('searchName');
+const cardsContainer = document.getElementById('cardsContainer');
+
+searchBtn.addEventListener('click', function() {
+    const name = searchName.value.trim();
+    
+    if (!name) {
+        alert('Please enter your name to view cards!');
+        return;
+    }
+    
+    // Show loading message
+    cardsContainer.innerHTML = '<p class="no-cards">Loading your cards...</p>';
+    
+    // Query Firebase for cards where recipient matches the name
+    db.collection('greetingCards')
+        .where('recipient', '==', name)
+        .orderBy('timestamp', 'desc')
+        .get()
+        .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+                cardsContainer.innerHTML = '<p class="no-cards">No birthday cards found for you yet! 🎂</p>';
+                return;
+            }
+            
+            cardsContainer.innerHTML = '';
+            
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'saved-card';
+                
+                cardDiv.innerHTML = `
+                    <div class="saved-card-header">${data.theme === 'Birthday' ? '🎉 Happy Birthday! 🎉' : data.theme === 'Kaarawan' ? '🎂 Maligayang Kaarawan! 🎂' : '✨ Special Greeting ✨'}</div>
+                    <div class="saved-card-info">From: ${data.sender}</div>
+                    <div class="saved-card-info">To: ${data.recipient}</div>
+                    <div class="saved-card-message">${data.message}</div>
+                `;
+                
+                cardsContainer.appendChild(cardDiv);
+            });
+        })
+        .catch((error) => {
+            console.error('Error getting cards:', error);
+            cardsContainer.innerHTML = '<p class="no-cards">Error loading cards. Please try again.</p>';
+        });
+});
