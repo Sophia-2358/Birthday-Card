@@ -1,80 +1,89 @@
-// Save card to Firebase (instead of localStorage)
-saveBtn.addEventListener('click', async function() {
-    if (!currentCard) return;
+const senderName = document.getElementById('senderName');
+const namePicker = document.getElementById('namePicker');
+const recipientName = document.getElementById('recipientName');
+const theme = document.getElementById('theme');
+const customMessageGroup = document.getElementById('customMessageGroup');
+const customMessage = document.getElementById('customMessage');
+const generateBtn = document.getElementById('generateBtn');
+const card = document.getElementById('card');
+const cardTitle = document.getElementById('cardTitle');
+const cardFrom = document.getElementById('cardFrom');
+const cardTo = document.getElementById('cardTo');
+const cardMessage = document.getElementById('cardMessage');
 
-    try {
-        await db.collection('greetingCards').add({
-            ...currentCard,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        alert('✅ Card saved successfully online!');
-        updateSavedCount();
-    } catch (error) {
-        console.error('Error saving card:', error);
-        alert('❌ Failed to save card. Please try again.');
+// When namePicker changes, put the value in recipientName input
+namePicker.addEventListener('change', function() {
+    if (this.value) {
+        recipientName.value = this.value;
     }
 });
 
-// Load saved cards from Firebase
-async function displaySavedCards() {
-    try {
-        const snapshot = await db.collection('greetingCards')
-            .orderBy('createdAt', 'desc')
-            .get();
-        
-        if (snapshot.empty) {
-            savedCardsGrid.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">📭</div>
-                    <p>No saved cards yet. Create and save your first greeting card!</p>
-                </div>
-            `;
+// Show/hide custom message textarea when Custom theme is selected
+theme.addEventListener('change', function() {
+    if (this.value === 'Custom') {
+        customMessageGroup.style.display = 'block';
+    } else {
+        customMessageGroup.style.display = 'none';
+    }
+});
+
+generateBtn.addEventListener('click', function() {
+    const sender = senderName.value.trim();
+    const recipient = recipientName.value.trim();
+    const selectedTheme = theme.value;
+
+    if (!sender) {
+        alert('Please enter your name (sender)!');
+        return;
+    }
+
+    if (!recipient) {
+        alert('Please select or enter a recipient name!');
+        return;
+    }
+
+    // Set card content
+    cardFrom.textContent = `From: ${sender}`;
+    cardTo.textContent = `To: ${recipient}`;
+
+    if (selectedTheme === 'Birthday') {
+        cardTitle.textContent = '🎉 Happy Birthday! 🎉';
+        cardMessage.textContent = `Wishing you a day filled with love, joy, and wonderful surprises! May all your dreams come true this year!`;
+        card.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    } else if (selectedTheme === 'Kaarawan') {
+        cardTitle.textContent = '🎂 Maligayang Kaarawan! 🎂';
+        cardMessage.textContent = `Nawa'y mapuno ng saya, pagmamahal, at mga pagpapala ang iyong espesyal na araw! Matupad sana ang lahat ng iyong mga pangarap!`;
+        card.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+    } else if (selectedTheme === 'Custom') {
+        const customMsg = customMessage.value.trim();
+        if (!customMsg) {
+            alert('Please enter a custom message!');
             return;
         }
-
-        savedCardsGrid.innerHTML = '';
-        snapshot.forEach((doc) => {
-            const card = doc.data();
-            const cardElement = document.createElement('div');
-            cardElement.className = 'saved-card-item';
-            cardElement.style.background = card.background;
-            cardElement.innerHTML = `
-                <button class="delete-btn" onclick="deleteCardFirebase('${doc.id}')">×</button>
-                <div class="card-title">${card.title}</div>
-                <div class="card-from">From: ${card.from}</div>
-                <div class="card-to">To: ${card.to}</div>
-                <div class="card-message">${card.message}</div>
-            `;
-            savedCardsGrid.appendChild(cardElement);
-        });
-    } catch (error) {
-        console.error('Error loading cards:', error);
-        savedCardsGrid.innerHTML = '<p>Error loading cards. Please refresh.</p>';
+        cardTitle.textContent = '✨ Special Greeting ✨';
+        cardMessage.textContent = customMsg;
+        card.style.background = 'linear-gradient(135deg, #ffa751 0%, #ffe259 100%)';
     }
-}
 
-// Delete card from Firebase
-async function deleteCardFirebase(docId) {
-    if (confirm('Are you sure you want to delete this card?')) {
-        try {
-            await db.collection('greetingCards').doc(docId).delete();
-            displaySavedCards();
-            updateSavedCount();
-            alert('✅ Card deleted successfully!');
-        } catch (error) {
-            console.error('Error deleting card:', error);
-            alert('❌ Failed to delete card.');
-        }
-    }
-}
+    card.style.display = 'block';
+    
+    // Save to Firebase
+    saveCardToFirebase(sender, recipient, selectedTheme, cardMessage.textContent);
+});
 
-// Update count from Firebase
-async function updateSavedCount() {
-    try {
-        const snapshot = await db.collection('greetingCards').get();
-        savedCount.textContent = snapshot.size;
-    } catch (error) {
-        console.error('Error counting cards:', error);
-    }
+// Function to save card to Firebase
+function saveCardToFirebase(sender, recipient, theme, message) {
+    db.collection('greetingCards').add({
+        sender: sender,
+        recipient: recipient,
+        theme: theme,
+        message: message,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then((docRef) => {
+        console.log('Card saved with ID:', docRef.id);
+    })
+    .catch((error) => {
+        console.error('Error saving card:', error);
+    });
 }
