@@ -12,3 +12,5 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+console.log('Firebase initialized:', firebase.apps.length > 0);
