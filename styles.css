@@ -106,3 +106,61 @@ input:focus, select:focus, textarea:focus {
     font-size: 1.1em;
     line-height: 1.6;
 }
+
+.view-cards-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.view-cards-section h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.btn-search {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+#cardsContainer {
+    margin-top: 30px;
+}
+
+.saved-card {
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.saved-card-header {
+    font-size: 1.5em;
+    color: #667eea;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.saved-card-info {
+    margin: 10px 0;
+    color: #555;
+    font-weight: 600;
+}
+
+.saved-card-message {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    line-height: 1.6;
+}
+
+.no-cards {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 1.1em;
+}
