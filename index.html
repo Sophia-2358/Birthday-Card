@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Greeting Card</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+        <h1>🎂 Birthday Card Maker 🎉</h1>
+        
+        <div class="form-group">
+            <label for="senderName">Your Name (Sender):</label>
+            <input type="text" id="senderName" placeholder="Enter your name" maxlength="30">
+        </div>
+
+        <div class="form-group">
+            <label for="namePicker">Pick Name to Greet:</label>
+            <select id="namePicker">
+                <option value="">-- Select a Name --</option>
+                <option value="AARON, CLARK JARED B.">AARON, CLARK JARED B.</option>
+                <option value="ACLAN, JOHN ROUVIC B.">ACLAN, JOHN ROUVIC B.</option>
+                <option value="ALARAS, CHRISTIAN JAY L.">ALARAS, CHRISTIAN JAY L.</option>
+                <option value="ANTOLIN, RONA DANIELLE T.">ANTOLIN, RONA DANIELLE T.</option>
+                <option value="ARQUILETA, PATRICIA">ARQUILETA, PATRICIA</option>
+                <option value="ARQUIZA, JEROME">ARQUIZA, JEROME</option>
+                <option value="BAHIA, JAMES ADRIAN C.">BAHIA, JAMES ADRIAN C.</option>
+                <option value="BAJAR, FRANCIS R.">BAJAR, FRANCIS R.</option>
+                <option value="BAUTISTA, MARWIN M.">BAUTISTA, MARWIN M.</option>
+                <option value="BULACLAC, MARKSON P.">BULACLAC, MARKSON P.</option>
+                <option value="CASTILLO, LEAREE M.">CASTILLO, LEAREE M.</option>
+                <option value="CAISIP, FRANCIS KENNETH">CAISIP, FRANCIS KENNETH</option>
+                <option value="DE SILVA, MARIEL I.">DE SILVA, MARIEL I.</option>
+                <option value="DELOS REYES, RHOMEL ALDREI P.">DELOS REYES, RHOMEL ALDREI P.</option>
+                <option value="DELOS REYES, WILMARC D.">DELOS REYES, WILMARC D.</option>
+                <option value="DIMAALA, ALEXANDER T.">DIMAALA, ALEXANDER T.</option>
+                <option value="DUGAY, NIÑA ANGELA L.">DUGAY, NIÑA ANGELA L.</option>
+                <option value="GAA, RENNIER Z.">GAA, RENNIER Z.</option>
+                <option value="GARCIA, SOPHIA POLA A.">GARCIA, SOPHIA POLA A.</option>
+                <option value="GIMENA, REYÑIEL A.">GIMENA, REYÑIEL A.</option>
+                <option value="GOMEZ, ALEXANDER JAMES C.">GOMEZ, ALEXANDER JAMES C.</option>
+                <option value="GOMEZ, MANUEL">GOMEZ, MANUEL</option>
+                <option value="GONGON, ZAIRA R.">GONGON, ZAIRA R.</option>
+                <option value="LASHERAS, KRISTINE CLAIRE N.">LASHERAS, KRISTINE CLAIRE N.</option>
+                <option value="LAUREANO, MHAR EVANS Q.">LAUREANO, MHAR EVANS Q.</option>
+                <option value="MADRID, GIAN CARLOS B.">MADRID, GIAN CARLOS B.</option>
+                <option value="MAGNO, MIKE WELFRED A.">MAGNO, MIKE WELFRED A.</option>
+                <option value="MARCIAL, JUSTIN ERICSON R.">MARCIAL, JUSTIN ERICSON R.</option>
+                <option value="MARIANO, AICHELLE MOIRA">MARIANO, AICHELLE MOIRA</option>
+                <option value="MEDINA, RACEL R.">MEDINA, RACEL R.</option>
+                <option value="MORILLO, JOHN ZIDRICK C.">MORILLO, JOHN ZIDRICK C.</option>
+                <option value="NAVARRO, NIÑO G.">NAVARRO, NIÑO G.</option>
+                <option value="NOAY, NIÑA L.">NOAY, NIÑA L.</option>
+                <option value="NUÑEZ, JAY ANTHONY I.">NUÑEZ, JAY ANTHONY I.</option>
+                <option value="RELEVO, JEREMY D.">RELEVO, JEREMY D.</option>
+                <option value="RELEVO, MARK FRANCIS B.">RELEVO, MARK FRANCIS B.</option>
+                <option value="RELEVO, REMIEL D.">RELEVO, REMIEL D.</option>
+                <option value="SALAZAR, ARABELLA GRACE B.">SALAZAR, ARABELLA GRACE B.</option>
+                <option value="SAPUNGAN, JOHN CARLO A.">SAPUNGAN, JOHN CARLO A.</option>
+                <option value="SOLIS, SUZZANE FATIMA">SOLIS, SUZZANE FATIMA</option>
+                <option value="TRIMOCHA, RYAN JOY C.">TRIMOCHA, RYAN JOY C.</option>
+                <option value="VARGAS, MEA RHEZ D.">VARGAS, MEA RHEZ D.</option>
+                <option value="VELASCO, GILLIAN D.">VELASCO, GILLIAN D.</option>
+                <option value="VILLANUEVA, DARRYL BLANE A.">VILLANUEVA, DARRYL BLANE A.</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="recipientName">Or Type Recipient Name:</label>
+            <input type="text" id="recipientName" placeholder="Who are you greeting?" maxlength="30">
+        </div>
+
+        <div class="form-group">
+            <label for="theme">Theme:</label>
+            <select id="theme">
+                <option value="Birthday">🎉 Birthday (English)</option>
+                <option value="Kaarawan">🎂 Kaarawan (Tagalog)</option>
+                <option value="Custom">✨ Custom Message</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="customMessageGroup" style="display: none;">
+            <label for="customMessage">Custom Greeting Message:</label>
+            <textarea id="customMessage" placeholder="Write your custom greeting message here..." maxlength="200" rows="4"></textarea>
+        </div>
+
+        <button class="btn btn-generate" id="generateBtn">Generate Greeting Card</button>
+
+        <div class="card" id="card">
+            <div class="card-title" id="cardTitle">🎉 Happy Birthday! 🎉</div>
+            <div class="card-from" id="cardFrom">From: Your Name</div>
+            <div class="card-to" id="cardTo">To: Recipient Name</div>
+            <div class="card-message" id="cardMessage"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
